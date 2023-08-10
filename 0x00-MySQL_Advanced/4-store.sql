@@ -1,16 +1,14 @@
--- SQL Script to Create Trigger to Decrease Item Quantity After Adding a New Order
-
+-- SQL script that creates a trigger that decreases
+-- the quantity of an item after adding a new order.
 DELIMITER //
-
-CREATE TRIGGER decrease_quantity_after_order
-AFTER INSERT ON orders
+CREATE TRIGGER dq
+AFTER INSERT
+ON `orders`
 FOR EACH ROW
 BEGIN
-    -- Decrease the item quantity by the order quantity
     UPDATE items
-    SET quantity = quantity - NEW.quantity
-    WHERE id = NEW.item_id;
+    SET quantity = quantity - NEW.number
+    WHERE NEW.item_name = items.name;
 END;
 //
-
 DELIMITER ;
